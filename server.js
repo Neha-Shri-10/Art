@@ -20,7 +20,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve u
 const { Pool } = require('pg');
 
 const db = new Pool({
-  connectionString: process.env.DB_HOST,
+  connectionString: postgresql://neha:71HTiKovFRRkuQrl0UMl4zT8DcjFBeBc@dpg-d45ja7m3jp1c73dj14b0-a/postgresql_es78,
 });
 
 db.connect()
@@ -342,6 +342,7 @@ app.post('/orders', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
 
 
 
