@@ -1,5 +1,4 @@
 const express = require('express');
-const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
@@ -18,12 +17,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve uploaded images
 
 // ================= MySQL Connection =================
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Neha@2006', // your MySQL password
-  database: 'artisans_bazaar' // your database name
+const { Pool } = require('pg');
+
+const db = new Pool({
+  connectionString: process.env.DB_HOST,
 });
+
+db.connect()
+  .then(() => console.log("✅ PostgreSQL Connected!"))
+  .catch(err => console.error("❌ PostgreSQL connection failed:", err));
+
 
 db.connect(err => {
   if (err) {
@@ -339,6 +342,7 @@ app.post('/orders', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
 
 
 
